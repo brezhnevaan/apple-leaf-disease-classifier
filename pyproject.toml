@@ -10,6 +10,9 @@ dependencies = [
     "pre-commit>=4.5.1",
     "pytorch-lightning>=2.6.0",
     "ruff>=0.14.10",
+    "torch>=2.9.1",
+    "torchmetrics>=1.8.2",
+    "torchvision>=0.24.1",
 ]
 
 [tool.ruff]
