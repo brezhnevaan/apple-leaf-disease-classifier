@@ -1,7 +1,7 @@
 [project]
 name = "apple-leaf-disease-classifier"
 version = "0.1.0"
-description = "Add your description here"
+description = "Apple leaf desease classification from images"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -9,3 +9,27 @@ dependencies = [
     "pre-commit>=4.5.1",
     "ruff>=0.14.10",
 ]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+extend-exclude = [
+  ".venv",
+  ".dvc",
+  "data",
+  "outputs",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N"]
+ignore = ["N999"]
+fixable = ["ALL"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["apple_leaf_disease"]
+combine-as-imports = true
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+line-ending = "lf"
