@@ -209,3 +209,5 @@ __marimo__/
 # dvc
 .dvc/cache/
 .dvc/tmp/
+
+.python-version

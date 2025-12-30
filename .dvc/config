@@ -2,4 +2,4 @@
     remote = storage
 ['remote "storage"']
     url = s3://apple-leaf-ds/dvc
-    endpointurl = https://storage.yandexcloud.net
+    endpointurl = https://storage.yandexcloud.kz
