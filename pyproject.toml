@@ -1,0 +1,11 @@
+[project]
+name = "apple-leaf-disease-classifier"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "dvc[s3]>=3.65.0",
+    "pre-commit>=4.5.1",
+    "ruff>=0.14.10",
+]
