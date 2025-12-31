@@ -1,0 +1,10 @@
+raw_dir: data/raw
+train_csv_name: train.csv
+train_images_dir: train_images
+
+val_size: 0.15
+test_size: 0.15
+seed: 42
+
+batch_size: 16
+num_workers: 4

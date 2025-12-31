@@ -1,0 +1,5 @@
+name: resnet18
+pretrained: true
+lr: 1e-3
+backbone_lr: 1e-4
+freeze_backbone_epochs: 1
