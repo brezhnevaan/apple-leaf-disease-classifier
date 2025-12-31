@@ -5,7 +5,11 @@ import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 from torch.optim.lr_scheduler import ReduceLROnPlateau
-from torchmetrics.classification import MultilabelF1Score
+from torchmetrics.classification import (
+    MultilabelF1Score,
+    MultilabelPrecision,
+    MultilabelRecall,
+)
 
 
 def _require(cfg: Mapping[str, Any], key: str) -> Any:
@@ -37,6 +41,8 @@ class AppleLeafLitModel(pl.LightningModule):
         self.backbone_lr = float(backbone_lr) if backbone_lr is not None else None
 
         self.f1_macro: MultilabelF1Score | None = None
+        self.precision_macro: MultilabelPrecision | None = None
+        self.recall_macro: MultilabelRecall | None = None
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         return self.net(x)
@@ -59,19 +65,35 @@ class AppleLeafLitModel(pl.LightningModule):
 
         if self.f1_macro is None:
             num_classes = int(preds.shape[1])
+
             self.f1_macro = MultilabelF1Score(
                 num_labels=num_classes,
                 average='macro',
                 threshold=self.threshold,
             ).to(self.device)
 
+            self.precision_macro = MultilabelPrecision(
+                num_labels=num_classes,
+                average='macro',
+                threshold=self.threshold,
+            ).to(self.device)
+
+            self.recall_macro = MultilabelRecall(
+                num_labels=num_classes,
+                average='macro',
+                threshold=self.threshold,
+            ).to(self.device)
+
         f1 = self.f1_macro(preds, y.int())
+        precision = self.precision_macro(preds, y.int())
+        recall = self.recall_macro(preds, y.int())
 
         self.log('val/loss', loss, prog_bar=True, on_step=False, on_epoch=True)
         self.log('val/f1_macro', f1, prog_bar=True, on_step=False, on_epoch=True)
+        self.log('val/precision_macro', precision, on_step=False, on_epoch=True)
+        self.log('val/recall_macro', recall, on_step=False, on_epoch=True)
 
     def configure_optimizers(self):
-        # --- optimizer config (strict) ---
         opt_name = str(_require(self.optimizer_cfg, 'name')).lower()
         lr = float(_require(self.optimizer_cfg, 'lr'))
         weight_decay = float(_require(self.optimizer_cfg, 'weight_decay'))
@@ -110,7 +132,6 @@ class AppleLeafLitModel(pl.LightningModule):
                 weight_decay=weight_decay,
             )
 
-        # --- scheduler config (strict optional) ---
         if self.scheduler_cfg is None:
             return optimizer
 
