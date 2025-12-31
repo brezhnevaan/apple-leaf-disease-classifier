@@ -14,10 +14,11 @@ dependencies = [
     "pytorch-lightning>=2.6.0",
     "ruff>=0.14.10",
     "scikit-learn>=1.7.2",
-    "torch>=2.9.1",
+    "torch>=2.1,<2.9",
     "torchmetrics>=1.8.2",
-    "torchvision>=0.24.1",
+    "torchvision>=0.16,<0.24",
 ]
+
 
 [tool.ruff]
 target-version = "py310"
