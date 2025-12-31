@@ -1,0 +1,11 @@
+defaults:
+  - _self_
+  - data: default
+  - augment: default
+  - model: resnet18
+  - train: default
+  - logging: mlflow
+
+hydra:
+  job:
+    chdir: false
