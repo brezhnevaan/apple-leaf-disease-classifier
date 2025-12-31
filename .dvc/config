@@ -1,5 +1,10 @@
 [core]
-    remote = storage
-['remote "storage"']
+    remote = public_http
+
+[remote "storage"]
     url = s3://apple-leaf-ds/dvc
     endpointurl = https://storage.yandexcloud.kz
+    region = kz1
+
+[remote "public_http"]
+    url = https://storage.yandexcloud.kz/apple-leaf-ds/dvc
